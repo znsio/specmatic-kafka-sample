@@ -1,19 +1,25 @@
-asyncapi: 2.0.0
+asyncapi: 2.6.0
 info:
   title: Springboot Kafka Demo
   version: '1.0.0'
 servers:
-  activemq:
+  kafka-dev:
     url: tcp://localhost:61616
-    protocol: amqp
+    protocol: kafka
 channels:
   firstTopic:
     publish:
+      operationId: publishObjectMessage
       message:
+        bindings:
+          kafka:
+            key:
+              type: string
+            bindingVersion: '0.4.0'
         payload:
-          additionalProperties:
-            type: string
-    bindings:
-      amqp:
-        is: queue
-components: {}
+          $ref: "#/components/messages/message"
+components:
+  messages:
+    message:
+      payload:
+        type: string
